@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="row">
+    <div class="col-md-12 col-title-main">
+      <h1>List of Items</h1>
+      {% if 'username' in login_session %}
+        <p><a href="{{ url_for('newCatalogItem') }}"><button class="btn btn-default">Create new item</button></a></p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 col-categories">
+      <h2>Categories</h2>
+      {% if categories %}
+        <ul>
+          {% for category in categories %}
+            <a href="{{ url_for('showCategory', category_slug = category.slug) }}"><li>{{ category.name }}</li></a>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>There are no categories yet.</p>
+      {% endif %}
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-7 col-items">
+      <h2>Items</h2>
+      {% if items %}
+        <ul>
+          {% for item in items %}
+            <a href="{{ url_for('showItem', category_slug = item.category.slug, item_slug = item.slug)}}"><li>{{ item.name }}</li></a>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>There are no items yet.</p>
+      {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12 col-show-item">
+      <h1>{{ item.name }}</h1>
+      <p>{{ item.description }}</p>
+    </div>
+  </div>
+
+  {% if 'username' in login_session %}
+    {% if login_session['user_id'] == item.user_id %}
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            <a href="{{ url_for('editItem', category_slug = category.slug, item_slug = item.slug) }}"><button class="btn btn-default">Edit</button></a>
+            <a href="{{ url_for('deleteItem', category_slug = category.slug, item_slug = item.slug) }}"><button class="btn btn-default">Delete</button></a>
+          </p>
+          <hr>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <p><a href="{{ url_for('showCategory', category_slug = category.slug) }}">Return to {{ category.name }} items</a></p>
+      <p><a href="{{ url_for('mainPage') }}">Return to the main page</a></p>
+    </div>
+  </div>
+
+{% endblock %}
